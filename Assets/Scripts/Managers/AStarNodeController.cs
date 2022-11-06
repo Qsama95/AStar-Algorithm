@@ -1,22 +1,21 @@
-﻿using System.Collections;
+﻿using Pathing;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "AStarNodeController", menuName = "AStar Node Controller")]
 public class AStarNodeController : ScriptableObject
 {
-    public float DistanceOnX = 1f;
-    public float DistanceOnZ = 0.75f;
-    public float DistanceOnDiagnal = 1.25f;
-
-    public List<AStarNodeView> AllAStarNodes = new List<AStarNodeView>();
-
-    public AStarNodeView EndNode;
+    public float DistanceOnX { get; set; }
+    public float DistanceOnZ { get; set; }
+    public float DistanceOnDiagnal { get; set; }
+    public List<AStarNodeView> AllAStarNodes { get; set; }
+    public AStarNodeView EndNode { get; set; }
 
     #region Public Calls from MapGenerator & AStarNodeSelector
     public void SetClickedNodeState(AStarNodeView clickedNode, bool setSelectionState)
     {
-        clickedNode.SelectAction(setSelectionState);
+        clickedNode.SetSelected(setSelectionState, true);
     }
 
     public bool IsNodeSelectable(AStarNodeView clickedNode)
@@ -49,7 +48,15 @@ public class AStarNodeController : ScriptableObject
     {
         foreach (AStarNodeView nodeView in AllAStarNodes)
         {
-            nodeView.SelectAction(false);
+            nodeView.SetSelected(false);
+        }
+    }
+
+    public void VisualizeNodesOnPath(IList<IAStarNode> path)
+    {
+        foreach (AStarNodeView nodeOnPath in path)
+        {
+            nodeOnPath.SetSelected(true);
         }
     }
     #endregion

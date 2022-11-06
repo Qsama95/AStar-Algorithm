@@ -13,8 +13,6 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
 
     #region Public Properties
     public AStarNode AStarNode { get; set; }
-    public bool IsSelected;
-
     public Vector3 InitialPos { get => _initialPos; set => _initialPos = value; }
     public AStarNodeView StarNodeUpLeft { get => _starNodeUpLeft; set => _starNodeUpLeft = value; }
     public AStarNodeView StarNodeUpRight { get => _starNodeUpRight; set => _starNodeUpRight = value; }
@@ -25,6 +23,8 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     #endregion
 
     #region Private Properties
+    private bool _isSelected;
+    private bool _isSelectedByUser;
     private Vector3 _initialPos;
     private List<AStarNodeView> _neighbours = new List<AStarNodeView>();
     private AStarNodeView _starNodeUpLeft;
@@ -57,7 +57,7 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         GetComponent<Collider>().enabled = active;
     }
 
-    private void OnSelected(bool isSelected)
+    private void OnSelected(bool isSelected, bool isSelectedByUser)
     {
         if (isSelected)
         {
@@ -67,7 +67,8 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         {
             transform.position = _initialPos;
         }
-        IsSelected = isSelected;
+        _isSelected = isSelected;
+        _isSelectedByUser = isSelectedByUser;
     }
     #endregion
 
@@ -82,9 +83,14 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         if (_starNodeLowRight) _neighbours.Add(_starNodeLowRight);
     }
 
-    public void SelectAction(bool isSelected)
+    public void SetSelected(bool isSelected, bool isSelectedByUser = false)
     {
-        OnSelected(isSelected);
+        OnSelected(isSelected, isSelectedByUser);
+    }
+
+    public bool IsSelected()
+    {
+        return _isSelected;
     }
 
     // Search 6 directions with corresponding distance and check if there is a hit on AStarNode
@@ -151,36 +157,42 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     #region Visualization
     void OnDrawGizmos()
     {
-        if (hitLeft.transform)
-        {
-            DrawArrow.ForGizmo(transform.position, (hitLeft.point - transform.position), Color.red);
-        }
-        if (hitRight.transform)
-        {
-            DrawArrow.ForGizmo(transform.position, (hitRight.point - transform.position), Color.red);
-        }
-        if (hitUpLeft.transform)
-        {
-            DrawArrow.ForGizmo(transform.position, (hitUpLeft.point - transform.position), Color.red);
-        }
-        if (hitUpRight.transform)
-        {
-            DrawArrow.ForGizmo(transform.position, (hitUpRight.point - transform.position), Color.red);
-        }
-        if (hitLowLeft.transform)
-        {
-            DrawArrow.ForGizmo(transform.position, (hitLowLeft.point - transform.position), Color.red);
-        }
-        if (hitLowRight.transform)
-        {
-            DrawArrow.ForGizmo(transform.position, (hitLowRight.point - transform.position), Color.red);
-        }
+        //if (hitLeft.transform)
+        //{
+        //    DrawArrow.ForGizmo(transform.position, (hitLeft.point - transform.position), Color.red);
+        //}
+        //if (hitRight.transform)
+        //{
+        //    DrawArrow.ForGizmo(transform.position, (hitRight.point - transform.position), Color.red);
+        //}
+        //if (hitUpLeft.transform)
+        //{
+        //    DrawArrow.ForGizmo(transform.position, (hitUpLeft.point - transform.position), Color.red);
+        //}
+        //if (hitUpRight.transform)
+        //{
+        //    DrawArrow.ForGizmo(transform.position, (hitUpRight.point - transform.position), Color.red);
+        //}
+        //if (hitLowLeft.transform)
+        //{
+        //    DrawArrow.ForGizmo(transform.position, (hitLowLeft.point - transform.position), Color.red);
+        //}
+        //if (hitLowRight.transform)
+        //{
+        //    DrawArrow.ForGizmo(transform.position, (hitLowRight.point - transform.position), Color.red);
+        //}
 
-        if (IsSelected)
+        if (_isSelected)
         {
             // Display the selected node
-            Gizmos.color = new Color(1, 1, 0, 0.75F);
+            Gizmos.color = Color.cyan;
             Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, _nodeOrigin.position);
+
+            if (_isSelectedByUser)
+            {
+                Gizmos.color = Color.red;
+                Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, _nodeOrigin.position);
+            }
         }
     }
     #endregion

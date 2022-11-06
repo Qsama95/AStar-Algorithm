@@ -17,6 +17,7 @@ MonoBehaviour:
   _nodeTexture: {fileID: 2800000, guid: 97e01983c7b6f435e9c8cf5bec65aa49, type: 3}
   _aStarNodeController: {fileID: 11400000, guid: 24de522c57d7da446b7f19dba9c30a24,
     type: 2}
+  _isSelectable: 0
   _travelCost: 100
   _nodeHexagonModelMesh: {fileID: 4300000, guid: 78055167baf6640a5a43eedb191356c4,
     type: 3}

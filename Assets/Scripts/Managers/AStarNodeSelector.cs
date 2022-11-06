@@ -61,10 +61,9 @@ public class AStarNodeSelector : MonoBehaviour
 
     private void VisualizePath(IList<IAStarNode> path)
     {
-        foreach (AStarNodeView nodeOnPath in path)
-        {
-            nodeOnPath.SelectAction(true);
-        }
+        path.Remove(_startNode);
+        path.Remove(_endNode);
+        _aStarNodeController.VisualizeNodesOnPath(path);
     }
 
     private void RestartNodeSelection()
@@ -84,7 +83,7 @@ public class AStarNodeSelector : MonoBehaviour
         }
 
         // deselect the selected node and set its start or end node ref to null
-        if (clickedNode.IsSelected)
+        if (clickedNode.IsSelected())
         {
             SetClickedNodeState(clickedNode, false);
             if (_startNode == clickedNode)
