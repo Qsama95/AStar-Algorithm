@@ -3,7 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
+using DG.Tweening;
 
 public class AStarNodeView : MonoBehaviour, IAStarNode
 {
@@ -26,6 +26,7 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     private bool _isSelected;
     private bool _isSelectedByUser;
     private Vector3 _initialPos;
+    private Vector3 _initialScale;
     private List<AStarNodeView> _neighbours = new List<AStarNodeView>();
     private AStarNodeView _starNodeUpLeft;
     private AStarNodeView _starNodeUpRight;
@@ -46,6 +47,7 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     private void Start()
     {
         _initialPos = transform.position;
+        _initialScale = transform.localScale;
     }
 
     private void OnDestroy()
@@ -61,14 +63,26 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     {
         if (isSelected)
         {
-            transform.position += Vector3.up * 0.1f;
+            transform.DOMove(transform.position + Vector3.up * 0.1f, 0.3f);
         }
         else
         {
-            transform.position = _initialPos;
+            transform.DOMove(_initialPos, 0.3f);
         }
         _isSelected = isSelected;
         _isSelectedByUser = isSelectedByUser;
+    }
+
+    private void OnHighlighted(bool isHighlighted)
+    {
+        if (isHighlighted)
+        {
+            transform.DOScale(_initialScale * 1.1f, 0.3f);
+        }
+        else
+        {
+            transform.DOScale(_initialScale, 0.3f);
+        }
     }
     #endregion
 
@@ -91,6 +105,11 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     public bool IsSelected()
     {
         return _isSelected;
+    }
+
+    public void SetHighlighted(bool isHighlighted)
+    {
+        OnHighlighted(isHighlighted);
     }
 
     // Search 6 directions with corresponding distance and check if there is a hit on AStarNode

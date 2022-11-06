@@ -13,6 +13,11 @@ public class AStarNodeController : ScriptableObject
     public AStarNodeView EndNode { get; set; }
 
     #region Public Calls from MapGenerator & AStarNodeSelector
+    public void SetNodeHighlighted(AStarNodeView clickedNode, bool setHighlighted)
+    {
+        clickedNode.SetHighlighted(setHighlighted);
+    }
+
     public void SetClickedNodeState(AStarNodeView clickedNode, bool setSelectionState)
     {
         clickedNode.SetSelected(setSelectionState, true);

@@ -11,6 +11,7 @@ public class AStarNodeSelector : MonoBehaviour
 
     private AStarNodeView _startNode;
     private AStarNodeView _endNode;
+    private AStarNodeView _mouseOnNode;
 
     private RaycastHit _hitOnNode;
     private Camera _mainCam;
@@ -31,6 +32,21 @@ public class AStarNodeSelector : MonoBehaviour
         Ray ray = _mainCam.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out _hitOnNode, Mathf.Infinity, _aStarNodeLayerMask))
         {
+            AStarNodeView detectedNode = _hitOnNode.transform.GetComponent<AStarNodeView>();
+            // mouse hover
+            // first detection
+            if (!_mouseOnNode)
+            {
+                SetHighlightedNode(detectedNode, false);
+            }
+
+            // update detection
+            if (_mouseOnNode != detectedNode)
+            {
+                SetHighlightedNode(detectedNode, true);
+            }
+
+            // mouse click
             if (Input.GetMouseButtonDown(0))
             {
                 AStarNodeView clickedNode = _hitOnNode.transform.GetComponent<AStarNodeView>();
@@ -46,6 +62,12 @@ public class AStarNodeSelector : MonoBehaviour
                 ClickOnSelectableNode(clickedNode);
                 FindPath();
             }
+        }
+        else
+        {
+            // clear detection
+            if (!_mouseOnNode) return;
+            SetHighlightedNode(_mouseOnNode, false);
         }
     }
 
@@ -138,6 +160,13 @@ public class AStarNodeSelector : MonoBehaviour
             return true;
         }
         return false;
+    }
+
+    private void SetHighlightedNode(AStarNodeView detectedNode, bool isUpdatingNode)
+    {
+        if (isUpdatingNode) _aStarNodeController.SetNodeHighlighted(_mouseOnNode, false);
+        _mouseOnNode = detectedNode;
+        _aStarNodeController.SetNodeHighlighted(_mouseOnNode, true);
     }
     #endregion
 }
