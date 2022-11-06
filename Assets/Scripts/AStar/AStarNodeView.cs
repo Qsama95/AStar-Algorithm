@@ -63,7 +63,7 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     {
         if (isSelected)
         {
-            transform.DOMove(transform.position + Vector3.up * 0.1f, 0.3f);
+            transform.DOMove(_initialPos + Vector3.up * 0.1f, 0.3f);
         }
         else
         {
