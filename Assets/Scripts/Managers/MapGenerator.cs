@@ -51,6 +51,7 @@ public class MapGenerator : MonoBehaviour
     public float DistanceOnDiagnal { get => _distanceOnDiagnal; set => _distanceOnDiagnal = value; }
     #endregion
 
+    #region Private Methods
     private void Awake()
     {
         InitProperties();
@@ -130,4 +131,5 @@ public class MapGenerator : MonoBehaviour
     {
         _aStarNodeController.InitializeNodeNeighbours();
     }
+    #endregion
 }

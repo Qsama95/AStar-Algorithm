@@ -9,16 +9,20 @@ using UnityEngine.Events;
 public class AStarNode : ScriptableObject
 {
     [Header("Node Self Properties")]
+    // internal use
     [SerializeField] private GameObject _nodeHexagonModel;
     [SerializeField] private Texture _nodeTexture;
     [SerializeField] private AStarNodeController _aStarNodeController;
 
+    // external use
+    [SerializeField] private bool _isSelectable;
     [SerializeField] private float _travelCost;
     [SerializeField] private Mesh _nodeHexagonModelMesh;
 
     #region Public Properties
     public float TravelCost { get => _travelCost; set => _travelCost = value; }
     public Mesh NodeHexagonModelMesh { get => _nodeHexagonModelMesh; set => _nodeHexagonModelMesh = value; }
+    public bool IsSelectable { get => _isSelectable; set => _isSelectable = value; }
     #endregion
 
     #region Public Methods
@@ -28,9 +32,8 @@ public class AStarNode : ScriptableObject
         nodeSelf.GetComponent<MeshRenderer>().material.SetTexture("_MainTex", _nodeTexture);
 
         AStarNodeView nodeView = nodeSelf.GetComponent<AStarNodeView>();
-        _aStarNodeController.AllAStarNodes.Add(nodeView);
         nodeView.AStarNode = this;
-        nodeView.RegisterActions();
+        _aStarNodeController.AllAStarNodes.Add(nodeView);
     }
     #endregion
 }

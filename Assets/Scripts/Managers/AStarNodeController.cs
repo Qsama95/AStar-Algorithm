@@ -13,6 +13,17 @@ public class AStarNodeController : ScriptableObject
 
     public AStarNodeView EndNode;
 
+    #region Public Calls from MapGenerator & AStarNodeSelector
+    public void SetClickedNodeState(AStarNodeView clickedNode, bool setSelectionState)
+    {
+        clickedNode.SelectAction(setSelectionState);
+    }
+
+    public bool IsNodeSelectable(AStarNodeView clickedNode)
+    {
+        return clickedNode.AStarNode.IsSelectable;
+    }
+
     public void CleanAStarNodes()
     {
         AllAStarNodes.Clear();
@@ -41,4 +52,5 @@ public class AStarNodeController : ScriptableObject
             nodeView.SelectAction(false);
         }
     }
+    #endregion
 }

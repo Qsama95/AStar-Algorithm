@@ -25,8 +25,8 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     #endregion
 
     #region Private Properties
-    private List<AStarNodeView> _neighbours = new List<AStarNodeView>();
     private Vector3 _initialPos;
+    private List<AStarNodeView> _neighbours = new List<AStarNodeView>();
     private AStarNodeView _starNodeUpLeft;
     private AStarNodeView _starNodeUpRight;
     private AStarNodeView _starNodeLeft;
@@ -42,6 +42,7 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     private RaycastHit hitLowRight;
     #endregion
 
+    #region Private Methods
     private void Start()
     {
         _initialPos = transform.position;
@@ -68,7 +69,9 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         }
         IsSelected = isSelected;
     }
+    #endregion
 
+    #region Public Methods
     public void InitialzeAStarNodeNeighbours()
     {
         if (_starNodeUpLeft) _neighbours.Add(_starNodeUpLeft);
@@ -77,10 +80,6 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         if (_starNodeRight) _neighbours.Add(_starNodeRight);
         if (_starNodeLowLeft) _neighbours.Add(_starNodeLowLeft);
         if (_starNodeLowRight) _neighbours.Add(_starNodeLowRight);
-    }
-
-    public void RegisterActions()
-    {
     }
 
     public void SelectAction(bool isSelected)
@@ -100,43 +99,32 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         if (Physics.Raycast(_nodeOrigin.position, (-_nodeOrigin.right + _nodeOrigin.forward).normalized, out hitUpLeft, distanceOnDiagnal, _neighbourLayerMask))
         {
             _starNodeUpLeft = hitUpLeft.transform.GetComponent<AStarNodeView>();
-            //NeighbourNodeViews.Add(_starNodeUpLeft);
-            //Debug.Log("hit a neighbour on up left: " + hitUpLeft.transform.GetComponent<AStarNodeView>().AStarNode);
         }
         if (Physics.Raycast(_nodeOrigin.position, (_nodeOrigin.right + _nodeOrigin.forward).normalized, out hitUpRight, distanceOnDiagnal, _neighbourLayerMask))
         {
             _starNodeUpRight = hitUpRight.transform.GetComponent<AStarNodeView>();
-            //NeighbourNodeViews.Add(StarNodeUpRight);
-            //Debug.Log("hit a neighbour on up right: " + hitUpRight.transform.GetComponent<AStarNodeView>().AStarNode);
         }
         if (Physics.Raycast(_nodeOrigin.position, -_nodeOrigin.right, out hitLeft, distanceOnX, _neighbourLayerMask))
         {
             _starNodeLeft = hitLeft.transform.GetComponent<AStarNodeView>();
-            //NeighbourNodeViews.Add(_starNodeLeft);
-            //Debug.Log("hit a neighbour on left: " + hitLeft.transform.GetComponent<AStarNodeView>().AStarNode);
         }
         if (Physics.Raycast(_nodeOrigin.position, _nodeOrigin.right, out hitRight, distanceOnX, _neighbourLayerMask))
         {
             _starNodeRight = hitRight.transform.GetComponent<AStarNodeView>();
-            //NeighbourNodeViews.Add(_starNodeRight);
-            //Debug.Log("hit a neighbour on right: " + hitRight.transform.GetComponent<AStarNodeView>().AStarNode);  
         }
         if (Physics.Raycast(_nodeOrigin.position, -(_nodeOrigin.right + _nodeOrigin.forward).normalized, out hitLowLeft, distanceOnDiagnal, _neighbourLayerMask))
         {
             _starNodeLowLeft = hitLowLeft.transform.GetComponent<AStarNodeView>();
-            //NeighbourNodeViews.Add(_starNodeLowLeft);
-            //Debug.Log("hit a neighbour on low left: " + hitLowLeft.transform.GetComponent<AStarNodeView>().AStarNode);
         }
         if (Physics.Raycast(_nodeOrigin.position, (_nodeOrigin.right - _nodeOrigin.forward).normalized, out hitLowRight, distanceOnDiagnal, _neighbourLayerMask))
         {
             _starNodeLowRight = hitLowRight.transform.GetComponent<AStarNodeView>();
-            //NeighbourNodeViews.Add(_starNodeLowRight);
-            //Debug.Log("hit a neighbour on low right: " + hitLowRight.transform.GetComponent<AStarNodeView>().AStarNode);
         }
 
         // enable collider on itself
         SetSelfColliderActive(true);
     }
+    #endregion
 
     #region IAStarNode Inheritance
     public IEnumerable<IAStarNode> Neighbours
@@ -192,13 +180,8 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
         {
             // Display the selected node
             Gizmos.color = new Color(1, 1, 0, 0.75F);
-            Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, transform.position);
+            Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, _nodeOrigin.position);
         }
-    }
-
-    void OnDrawGizmosSelected()
-    {
-
     }
     #endregion
 }

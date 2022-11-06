@@ -15,12 +15,12 @@ public class AStarNodeSelector : MonoBehaviour
     private RaycastHit _hitOnNode;
     private Camera _mainCam;
 
+    #region Private Methods
     private void Awake()
     {
         _mainCam = Camera.main;
     }
 
-    // Update is called once per frame
     private void Update()
     {
         DetectingAStarNode();
@@ -33,10 +33,17 @@ public class AStarNodeSelector : MonoBehaviour
         {
             if (Input.GetMouseButtonDown(0))
             {
-                Debug.Log("click on node: " + _hitOnNode.transform.GetComponent<AStarNodeView>().AStarNode);
                 AStarNodeView clickedNode = _hitOnNode.transform.GetComponent<AStarNodeView>();
+                Debug.Log("click on node: " + clickedNode.AStarNode);
 
-                ClickOnNode(clickedNode);
+                // avoid specific node type
+                if (!IsNodeSelectable(clickedNode))
+                {
+                    Debug.Log("Clicked node can not be selected! Please reselect a node!");
+                    return;
+                }
+
+                ClickOnSelectableNode(clickedNode);
                 FindPath();
             }
         }
@@ -68,8 +75,9 @@ public class AStarNodeSelector : MonoBehaviour
         _endNode = null;
     }
 
-    private void ClickOnNode(AStarNodeView clickedNode)
+    private void ClickOnSelectableNode(AStarNodeView clickedNode)
     {
+        // restart selection
         if (IsStartNodeSelected() && IsEndNodeSelected())
         {
             RestartNodeSelection();
@@ -107,7 +115,12 @@ public class AStarNodeSelector : MonoBehaviour
 
     private void SetClickedNodeState(AStarNodeView clickedNode, bool setSelectionState)
     {
-        clickedNode.SelectAction(setSelectionState);
+        _aStarNodeController.SetClickedNodeState(clickedNode, setSelectionState);
+    }
+
+    private bool IsNodeSelectable(AStarNodeView clickedNode)
+    {
+        return _aStarNodeController.IsNodeSelectable(clickedNode);
     }
 
     private bool IsStartNodeSelected()
@@ -127,4 +140,5 @@ public class AStarNodeSelector : MonoBehaviour
         }
         return false;
     }
+    #endregion
 }
