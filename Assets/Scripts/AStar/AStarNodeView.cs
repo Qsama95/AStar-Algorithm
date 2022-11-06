@@ -174,43 +174,54 @@ public class AStarNodeView : MonoBehaviour, IAStarNode
     #endregion
 
     #region Visualization
+    [SerializeField] private bool _isDebugModeOn = false;
+
+    private void DebugModeOnTheNode()
+    {
+        if (_isDebugModeOn)
+        {
+            if (hitLeft.transform)
+            {
+                DrawArrow.ForGizmo(transform.position, (hitLeft.point - transform.position), Color.red);
+            }
+            if (hitRight.transform)
+            {
+                DrawArrow.ForGizmo(transform.position, (hitRight.point - transform.position), Color.red);
+            }
+            if (hitUpLeft.transform)
+            {
+                DrawArrow.ForGizmo(transform.position, (hitUpLeft.point - transform.position), Color.red);
+            }
+            if (hitUpRight.transform)
+            {
+                DrawArrow.ForGizmo(transform.position, (hitUpRight.point - transform.position), Color.red);
+            }
+            if (hitLowLeft.transform)
+            {
+                DrawArrow.ForGizmo(transform.position, (hitLowLeft.point - transform.position), Color.red);
+            }
+            if (hitLowRight.transform)
+            {
+                DrawArrow.ForGizmo(transform.position, (hitLowRight.point - transform.position), Color.red);
+            }
+        }
+    }
+
     void OnDrawGizmos()
     {
-        //if (hitLeft.transform)
-        //{
-        //    DrawArrow.ForGizmo(transform.position, (hitLeft.point - transform.position), Color.red);
-        //}
-        //if (hitRight.transform)
-        //{
-        //    DrawArrow.ForGizmo(transform.position, (hitRight.point - transform.position), Color.red);
-        //}
-        //if (hitUpLeft.transform)
-        //{
-        //    DrawArrow.ForGizmo(transform.position, (hitUpLeft.point - transform.position), Color.red);
-        //}
-        //if (hitUpRight.transform)
-        //{
-        //    DrawArrow.ForGizmo(transform.position, (hitUpRight.point - transform.position), Color.red);
-        //}
-        //if (hitLowLeft.transform)
-        //{
-        //    DrawArrow.ForGizmo(transform.position, (hitLowLeft.point - transform.position), Color.red);
-        //}
-        //if (hitLowRight.transform)
-        //{
-        //    DrawArrow.ForGizmo(transform.position, (hitLowRight.point - transform.position), Color.red);
-        //}
+        DebugModeOnTheNode();
 
         if (_isSelected)
         {
+            Vector3 offsetPos = transform.position - Vector3.up * 0.2f;
             // Display the selected node
             Gizmos.color = Color.cyan;
-            Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, _nodeOrigin.position);
+            Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, offsetPos);
 
             if (_isSelectedByUser)
             {
                 Gizmos.color = Color.red;
-                Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, _nodeOrigin.position);
+                Gizmos.DrawWireMesh(AStarNode.NodeHexagonModelMesh, offsetPos);
             }
         }
     }
