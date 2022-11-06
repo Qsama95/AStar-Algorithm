@@ -48,6 +48,8 @@ MonoBehaviour:
   _grassNode: {fileID: 11400000, guid: 3551eb836bfd30e4b9f428ace3de3be5, type: 2}
   _mountainNode: {fileID: 11400000, guid: 9f59af586bc0ea049a98c231b3f6f0cb, type: 2}
   _waterNode: {fileID: 11400000, guid: 4499deffe12defc41b37bd144a9ad6f5, type: 2}
+  _aStarNodeController: {fileID: 11400000, guid: 24de522c57d7da446b7f19dba9c30a24,
+    type: 2}
   _nodeMap: {fileID: 11400000, guid: 8ee8b5f45503db04a95bf377cbcda26b, type: 2}
   _distanceOnX: 1
   _distanceOnZ: 0.75

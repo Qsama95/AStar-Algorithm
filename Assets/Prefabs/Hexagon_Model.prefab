@@ -112,7 +112,10 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   _nodeOrigin: {fileID: 4272401954343171641}
-  Neighbours: []
+  _aStarNodeController: {fileID: 11400000, guid: 24de522c57d7da446b7f19dba9c30a24,
+    type: 2}
+  NeighbourNodeViews: []
+  IsSelected: 0
 --- !u!1 &4799220774981833857
 GameObject:
   m_ObjectHideFlags: 0

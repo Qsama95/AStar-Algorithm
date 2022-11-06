@@ -752,11 +752,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6866358405172871862, guid: 2cbe0bd121e29144ba3bf8764527d980,
-        type: 3}
-      propertyPath: _aStarNodeLayerMask.m_Bits
-      value: 256
-      objectReference: {fileID: 0}
     - target: {fileID: 7441252869761841392, guid: 2cbe0bd121e29144ba3bf8764527d980,
         type: 3}
       propertyPath: m_Name

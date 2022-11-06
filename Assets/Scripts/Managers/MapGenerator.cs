@@ -26,6 +26,10 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private AStarNode _waterNode;
 
+    [Header("Node Controller")]
+    [SerializeField]
+    private AStarNodeController _aStarNodeController;
+
     [Header("Map Properties")]
     [SerializeField]
     private AStarNodeMap _nodeMap;
@@ -36,29 +40,40 @@ public class MapGenerator : MonoBehaviour
     [SerializeField]
     private Vector3 _startPos = Vector3.zero;
 
+    #region Private Properties
     private float _distanceOnDiagnal;
     private List<NodeTypeRow> _nodeTypeMap = new List<NodeTypeRow>();
+    #endregion
 
+    #region Public Properties
     public float DistanceOnX { get => _distanceOnX; set => _distanceOnX = value; }
     public float DistanceOnZ { get => _distanceOnZ; set => _distanceOnZ = value; }
     public float DistanceOnDiagnal { get => _distanceOnDiagnal; set => _distanceOnDiagnal = value; }
+    #endregion
 
     private void Awake()
     {
         InitProperties();
         GenerateNodeMap();
         FindNeighboursForNodes();
+        InitializeNodeNeighbours();
+    }
+
+    private void OnDestroy()
+    {
+        _aStarNodeController.CleanAStarNodes();
     }
 
     private void InitProperties()
     {
         _distanceOnDiagnal = Mathf.Sqrt(_distanceOnX * _distanceOnX + _distanceOnZ * _distanceOnZ);
-        AStarMap.DistanceOnX = _distanceOnX;
-        AStarMap.DistanceOnZ = _distanceOnZ;
-        AStarMap.DistanceOnDiagnal = _distanceOnDiagnal;
+        _aStarNodeController.DistanceOnX = _distanceOnX;
+        _aStarNodeController.DistanceOnZ = _distanceOnZ;
+        _aStarNodeController.DistanceOnDiagnal = _distanceOnDiagnal;
 
         _nodeMap.TranslateNodeNamesInNodeMapToNodeTypes();
         _nodeTypeMap = _nodeMap.GetNodeTypeMap();
+        _aStarNodeController.CleanAStarNodes();
     }
 
     private void GenerateNodeMap()
@@ -108,18 +123,11 @@ public class MapGenerator : MonoBehaviour
 
     private void FindNeighboursForNodes()
     {
-        foreach (AStarNodeView node in AStarMap.AllAStarNodes)
-        {
-            node.SearchForNeighbours();
-        }
+        _aStarNodeController.FindNeighboursForNodes();
     }
-}
 
-public static class AStarMap
-{
-    public static float DistanceOnX = 1f;
-    public static float DistanceOnZ = 0.75f;
-    public static float DistanceOnDiagnal = 1.25f;
-
-    public static List<AStarNodeView> AllAStarNodes = new List<AStarNodeView>();
+    private void InitializeNodeNeighbours()
+    {
+        _aStarNodeController.InitializeNodeNeighbours();
+    }
 }

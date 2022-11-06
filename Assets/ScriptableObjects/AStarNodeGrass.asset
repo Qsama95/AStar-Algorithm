@@ -15,10 +15,8 @@ MonoBehaviour:
   _nodeHexagonModel: {fileID: 2717316594632116988, guid: dcc7cfb22093c65439ec81b2870090ec,
     type: 3}
   _nodeTexture: {fileID: 2800000, guid: dea42c1ce0c5947b1826926d46ac10b3, type: 3}
+  _aStarNodeController: {fileID: 11400000, guid: 24de522c57d7da446b7f19dba9c30a24,
+    type: 2}
   _travelCost: 1
-  _starNodeUpLeft: {fileID: 0}
-  _starNodeUpRight: {fileID: 0}
-  _starNodeLeft: {fileID: 0}
-  _starNodeRight: {fileID: 0}
-  _starNodeLowLeft: {fileID: 0}
-  _starNodeLowRight: {fileID: 0}
+  _nodeHexagonModelMesh: {fileID: 4300000, guid: 78055167baf6640a5a43eedb191356c4,
+    type: 3}

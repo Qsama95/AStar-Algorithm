@@ -45,4 +45,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _aStarNodeLayerMask:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 256
+  _aStarNodeController: {fileID: 11400000, guid: 24de522c57d7da446b7f19dba9c30a24,
+    type: 2}
